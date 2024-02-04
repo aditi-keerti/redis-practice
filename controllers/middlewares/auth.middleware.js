@@ -1,7 +1,7 @@
 const {redisClient}=require('./redis.middleware');
 const jwt=require('jsonwebtoken');
 
-const auth=(req,res,next)=>{
+const authentication=(req,res,next)=>{
     const token=req.header('Authorization');
     if(!token) return res.status(401).json({mesg:"Provide Token"});
     jwt.verify(token,'redis',(err,user)=>{
@@ -18,5 +18,5 @@ const auth=(req,res,next)=>{
 }
 
 module.exports={
-    auth
+    authentication
 }
