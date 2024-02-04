@@ -11,10 +11,8 @@ const auth=(req,res,next)=>{
             if(redisErr){
                 console.log(`error checking token in Redis:${redisErr}`);
                 return res.sendStatus(500);
-            }if(reply){
-                return res.sendStatus(403);
             }
-            next();
+           next();
         })
     })
 }

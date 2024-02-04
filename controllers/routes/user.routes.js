@@ -44,9 +44,9 @@ userRoute.post('/login', async (req, res) => {
 
         bcrypt.compare(pass, user.pass, async (err, result) => {
             if (result) {
-                const token = jwt.sign({ user }, 'redis', { expiresIn: '1h' });
-                redisClient.setEx(token, 3600, 'valid');
-                res.status(200).json({ msg: "Login Successful!!", token });
+                const token = jwt.sign({user},'redis',{expiresIn:'1h'});
+                redisClient.setex(token, 3600, 'valid');
+                res.status(200).json({msg: "Login Successful!!",token});
             } else {
                 res.status(402).json({ error: "Invalid password" });
             }
@@ -59,7 +59,7 @@ userRoute.post('/login', async (req, res) => {
 
 userRoute.post('/logout',auth,(req,res)=>{
     const token=req.header('Authorization');
-    redisClient.setEx(token,3600,'blacklisted');
+    redisClient.sadd('blacklisted',token);
     res.status(200).json({msg:"Logout Successfull!!"})
 })
 
